@@ -27,6 +27,7 @@
 		CC1D2E612C1B638A00304CCB /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E602C1B638A00304CCB /* WeatherService.swift */; };
 		CC1D2E642C1B63B700304CCB /* ApiErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E632C1B63B700304CCB /* ApiErrors.swift */; };
 		CC1D2E672C1B643700304CCB /* AppTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E662C1B643700304CCB /* AppTabController.swift */; };
+		CC1D2E692C1B65EF00304CCB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E682C1B65EF00304CCB /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		CC1D2E602C1B638A00304CCB /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		CC1D2E632C1B63B700304CCB /* ApiErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiErrors.swift; sourceTree = "<group>"; };
 		CC1D2E662C1B643700304CCB /* AppTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabController.swift; sourceTree = "<group>"; };
+		CC1D2E682C1B65EF00304CCB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 		CC1D2E402C1B625300304CCB /* Style */ = {
 			isa = PBXGroup;
 			children = (
+				CC1D2E682C1B65EF00304CCB /* Color.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				CC1D2E642C1B63B700304CCB /* ApiErrors.swift in Sources */,
 				CC1D2E2F2C1B614900304CCB /* ContentView.swift in Sources */,
 				CC1D2E432C1B627700304CCB /* Color+Extension.swift in Sources */,
+				CC1D2E692C1B65EF00304CCB /* Color.swift in Sources */,
 				CC1D2E4E2C1B62C300304CCB /* MapViewModel.swift in Sources */,
 				CC1D2E502C1B62CB00304CCB /* HomeView.swift in Sources */,
 				CC1D2E5B2C1B630800304CCB /* ProfileCoordinator.swift in Sources */,
