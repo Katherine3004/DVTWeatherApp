@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    private let services: Services
+    
+    init() {
+        self.services = Services()
+    }
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        AppTabController(services: services)
+            .ignoresSafeArea()
     }
 }
 
