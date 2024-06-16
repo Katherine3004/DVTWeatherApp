@@ -80,7 +80,7 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
     
     //Current Temperature and Current Condition
     func currentTemp(currentTemp: Double?, currentCondition: String) -> some View {
-        VStack(alignment: .center, spacing: 16) {
+        VStack(alignment: .center, spacing: 12) {
             let tempString = String(format: "%.0f", ceil(currentTemp ?? 0))
             Text("\(tempString)°")
                 .font(.h3)
@@ -97,7 +97,7 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
         VStack(alignment: .center, spacing: 2) {
             let tempString = String(format: "%.0f", ceil(temp ?? 0))
             Text("\(tempString)°")
-                .font(.body16Medium)
+                .font(.body16SemiBold)
                 .foregroundStyle(Color.white)
             Text(label)
                 .font(.body14)
@@ -113,7 +113,7 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
             GeometryReader { geometry in
                 HStack(alignment: .center, spacing: 0) {
                     Text(dayFormatted)
-                        .font(.body16Medium)
+                        .font(.body16SemiBold)
                         .foregroundStyle(Color.white)
                         .frame(width: geometry.size.width * ((100 / 3) / 100), alignment: .leading)
                     
@@ -124,7 +124,7 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
                         .frame(width: geometry.size.width * ((100 / 3) / 100), alignment: .center)
                     
                     Text("\(tempString)°")
-                        .font(.body16Medium)
+                        .font(.body16SemiBold)
                         .foregroundStyle(Color.white)
                         .frame(width: geometry.size.width * ((100 / 3) / 100), alignment: .trailing)
                 }

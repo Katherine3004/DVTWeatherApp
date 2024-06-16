@@ -56,12 +56,12 @@
 		CC1D2E632C1B63B700304CCB /* ApiErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiErrors.swift; sourceTree = "<group>"; };
 		CC1D2E662C1B643700304CCB /* AppTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabController.swift; sourceTree = "<group>"; };
 		CC1D2E682C1B65EF00304CCB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		CC1D2E702C1E0C7900304CCB /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
-		CC1D2E712C1E0C7900304CCB /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		CC1D2E722C1E0C7900304CCB /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		CC1D2E732C1E0CAA00304CCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CC1D2E742C1E0D1600304CCB /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		CC1D2E762C1E101D00304CCB /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
+		CC1D2E782C1F685F00304CCB /* RobotoMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Bold.ttf"; sourceTree = "<group>"; };
+		CC1D2E792C1F685F00304CCB /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
+		CC1D2E7A2C1F686000304CCB /* RobotoMono-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-SemiBold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,9 +169,9 @@
 		CC1D2E402C1B625300304CCB /* Style */ = {
 			isa = PBXGroup;
 			children = (
-				CC1D2E702C1E0C7900304CCB /* Roboto-Bold.ttf */,
-				CC1D2E722C1E0C7900304CCB /* Roboto-Medium.ttf */,
-				CC1D2E712C1E0C7900304CCB /* Roboto-Regular.ttf */,
+				CC1D2E782C1F685F00304CCB /* RobotoMono-Bold.ttf */,
+				CC1D2E792C1F685F00304CCB /* RobotoMono-Regular.ttf */,
+				CC1D2E7A2C1F686000304CCB /* RobotoMono-SemiBold.ttf */,
 				CC1D2E682C1B65EF00304CCB /* Color.swift */,
 				CC1D2E742C1E0D1600304CCB /* Typography.swift */,
 			);
