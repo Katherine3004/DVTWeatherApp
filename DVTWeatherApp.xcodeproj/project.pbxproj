@@ -28,6 +28,8 @@
 		CC1D2E642C1B63B700304CCB /* ApiErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E632C1B63B700304CCB /* ApiErrors.swift */; };
 		CC1D2E672C1B643700304CCB /* AppTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E662C1B643700304CCB /* AppTabController.swift */; };
 		CC1D2E692C1B65EF00304CCB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E682C1B65EF00304CCB /* Color.swift */; };
+		CC1D2E752C1E0D1600304CCB /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E742C1E0D1600304CCB /* Typography.swift */; };
+		CC1D2E772C1E101D00304CCB /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E762C1E101D00304CCB /* Forecast.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,12 @@
 		CC1D2E632C1B63B700304CCB /* ApiErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiErrors.swift; sourceTree = "<group>"; };
 		CC1D2E662C1B643700304CCB /* AppTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabController.swift; sourceTree = "<group>"; };
 		CC1D2E682C1B65EF00304CCB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		CC1D2E702C1E0C7900304CCB /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		CC1D2E712C1E0C7900304CCB /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		CC1D2E722C1E0C7900304CCB /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		CC1D2E732C1E0CAA00304CCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CC1D2E742C1E0D1600304CCB /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		CC1D2E762C1E101D00304CCB /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +94,7 @@
 		CC1D2E2B2C1B614900304CCB /* DVTWeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				CC1D2E732C1E0CAA00304CCB /* Info.plist */,
 				CC1D2E412C1B625700304CCB /* Component */,
 				CC1D2E402C1B625300304CCB /* Style */,
 				CC1D2E3F2C1B624D00304CCB /* Extensions */,
@@ -144,7 +153,6 @@
 			children = (
 				CC1D2E622C1B63AD00304CCB /* APIError */,
 				CC1D2E5C2C1B637A00304CCB /* Services.swift */,
-				CC1D2E5E2C1B638200304CCB /* Weather.swift */,
 				CC1D2E602C1B638A00304CCB /* WeatherService.swift */,
 			);
 			path = API;
@@ -161,7 +169,11 @@
 		CC1D2E402C1B625300304CCB /* Style */ = {
 			isa = PBXGroup;
 			children = (
+				CC1D2E702C1E0C7900304CCB /* Roboto-Bold.ttf */,
+				CC1D2E722C1E0C7900304CCB /* Roboto-Medium.ttf */,
+				CC1D2E712C1E0C7900304CCB /* Roboto-Regular.ttf */,
 				CC1D2E682C1B65EF00304CCB /* Color.swift */,
+				CC1D2E742C1E0D1600304CCB /* Typography.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -203,6 +215,7 @@
 		CC1D2E622C1B63AD00304CCB /* APIError */ = {
 			isa = PBXGroup;
 			children = (
+				CC1D2E6A2C1CB90D00304CCB /* Model */,
 				CC1D2E632C1B63B700304CCB /* ApiErrors.swift */,
 			);
 			path = APIError;
@@ -214,6 +227,15 @@
 				CC1D2E662C1B643700304CCB /* AppTabController.swift */,
 			);
 			path = TabController;
+			sourceTree = "<group>";
+		};
+		CC1D2E6A2C1CB90D00304CCB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CC1D2E5E2C1B638200304CCB /* Weather.swift */,
+				CC1D2E762C1E101D00304CCB /* Forecast.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,11 +318,13 @@
 				CC1D2E4C2C1B62BB00304CCB /* MapView.swift in Sources */,
 				CC1D2E642C1B63B700304CCB /* ApiErrors.swift in Sources */,
 				CC1D2E2F2C1B614900304CCB /* ContentView.swift in Sources */,
+				CC1D2E752C1E0D1600304CCB /* Typography.swift in Sources */,
 				CC1D2E432C1B627700304CCB /* Color+Extension.swift in Sources */,
 				CC1D2E692C1B65EF00304CCB /* Color.swift in Sources */,
 				CC1D2E4E2C1B62C300304CCB /* MapViewModel.swift in Sources */,
 				CC1D2E502C1B62CB00304CCB /* HomeView.swift in Sources */,
 				CC1D2E5B2C1B630800304CCB /* ProfileCoordinator.swift in Sources */,
+				CC1D2E772C1E101D00304CCB /* Forecast.swift in Sources */,
 				CC1D2E2D2C1B614900304CCB /* DVTWeatherAppApp.swift in Sources */,
 				CC1D2E592C1B62FF00304CCB /* MapCoordinator.swift in Sources */,
 				CC1D2E4A2C1B62B300304CCB /* ProfileViewModel.swift in Sources */,
@@ -438,6 +462,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DVTWeatherApp/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -476,6 +501,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DVTWeatherApp/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

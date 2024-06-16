@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "20B70C61-AEC6-45FC-832A-1F0416F62354"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2E77A30F-B88B-4FF6-A5A4-5325F7A7500B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DVTWeatherApp/API/WeatherService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "baseUrl"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "2E77A30F-B88B-4FF6-A5A4-5325F7A7500B - 25a0a44e5feb6060"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DVTWeatherApp.WeatherAPI.init() -&gt; DVTWeatherApp.WeatherAPI"
+                  moduleName = "DVTWeatherApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/katherinechambers/Project/DVTWeatherApp/DVTWeatherApp/API/WeatherService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "2E77A30F-B88B-4FF6-A5A4-5325F7A7500B - 25a0a44e5feb6181"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DVTWeatherApp.WeatherAPI.init() -&gt; DVTWeatherApp.WeatherAPI"
+                  moduleName = "DVTWeatherApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/katherinechambers/Project/DVTWeatherApp/DVTWeatherApp/API/WeatherService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F3817D92-B38E-48BE-97D9-F3CC0FE64260"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DVTWeatherApp/Views/Home/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6F24CF4B-F8F5-435B-9880-648AB13AB921"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DVTWeatherApp/Views/Home/HomeViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "fetachWeather(lat:long:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6F24CF4B-F8F5-435B-9880-648AB13AB921 - 65d87affe4862bcd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 @Sendable () async -&gt; () in DVTWeatherApp.HomeViewModel.fetachWeather(lat: Swift.String, long: Swift.String) -&gt; ()"
+                  moduleName = "DVTWeatherApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/katherinechambers/Project/DVTWeatherApp/DVTWeatherApp/Views/Home/HomeViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "68">
+               </Location>
+               <Location
+                  uuid = "6F24CF4B-F8F5-435B-9880-648AB13AB921 - f5a95f6470e9e550"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for closure #1 @Sendable () async -&gt; () in DVTWeatherApp.HomeViewModel.fetachWeather(lat: Swift.String, long: Swift.String) -&gt; ()"
+                  moduleName = "DVTWeatherApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/katherinechambers/Project/DVTWeatherApp/DVTWeatherApp/Views/Home/HomeViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "6F24CF4B-F8F5-435B-9880-648AB13AB921 - 3740fa0e8585ef8f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; () in DVTWeatherApp.HomeViewModel.fetachWeather(lat: Swift.String, long: Swift.String) -&gt; ()"
+                  moduleName = "DVTWeatherApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/katherinechambers/Project/DVTWeatherApp/DVTWeatherApp/Views/Home/HomeViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "6F24CF4B-F8F5-435B-9880-648AB13AB921 - 583cbbc1f5048da8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; () in DVTWeatherApp.HomeViewModel.fetachWeather(lat: Swift.String, long: Swift.String) -&gt; ()"
+                  moduleName = "DVTWeatherApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/katherinechambers/Project/DVTWeatherApp/DVTWeatherApp/Views/Home/HomeViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "60">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "55A4788A-8079-4869-AFEE-F715C565C54C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DVTWeatherApp/Views/Home/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "currentTemp(currentTemp:currentCondition:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F7216186-83F4-4683-B4C7-D49088D96DF4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DVTWeatherApp/Views/Home/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "kelvinToCelsius(kelvin:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
