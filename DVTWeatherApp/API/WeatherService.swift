@@ -8,8 +8,8 @@
 import Foundation
 
 protocol WeatherService {
-    func fetchWeather(lat: String, long: String) async throws -> Weather?
-    func fetchForecast(lat: String, long: String) async throws -> Forecast?
+    func fetchWeather(lat: String, long: String) async throws -> Weather
+    func fetchForecast(lat: String, long: String) async throws -> Forecast
 }
 
 class WeatherAPI: WeatherService {
@@ -17,7 +17,7 @@ class WeatherAPI: WeatherService {
     let baseUrl = "https://api.openweathermap.org/data/2.5/"
 
     
-    func fetchWeather(lat: String, long: String) async throws -> Weather? {
+    func fetchWeather(lat: String, long: String) async throws -> Weather {
         let urlString = "\(baseUrl)weather?lat=\(lat)&lon=\(long)&appid=\(apiKey)&units=metric"
         guard let url = URL(string: urlString) else { throw ApiError.urlError(message: "Error Fetching Weather Data") }
         
@@ -25,13 +25,10 @@ class WeatherAPI: WeatherService {
             let (data, _) = try await URLSession.shared.data(from: url)
             let response = try JSONDecoder().decode(Weather.self, from: data)
             return response
-        } catch {
-            print("DEBUG: Error fetchWeather(lat: \(lat), long: \(long)): \(error)")
-            return nil
         }
     }
     
-    func fetchForecast(lat: String, long: String) async throws -> Forecast? {
+    func fetchForecast(lat: String, long: String) async throws -> Forecast {
         let urlString = "\(baseUrl)forecast?lat=\(lat)&lon=\(long)&appid=\(apiKey)&units=metric"
         guard let url = URL(string: urlString) else { throw ApiError.urlError(message: "Error Fetching Forecast Data") }
         
@@ -42,9 +39,6 @@ class WeatherAPI: WeatherService {
             }
             let response = try JSONDecoder().decode(Forecast.self, from: data)
             return response
-        } catch {
-            print("DEBUG: Error fetchForecast(lat: \(lat), long: \(long)): \(error)")
-            return nil
         }
     }
 }

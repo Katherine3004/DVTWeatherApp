@@ -9,6 +9,7 @@ import SwiftUI
 
 extension Font {
     //Heading
+    static let largeHeading = Font.custom("RobotoMono-Bold", size: 58)
     static let h1 = Font.custom("RobotoMono-Bold", size: 42)
     static let h2 = Font.custom("RobotoMono-Bold", size: 36)
     static let h3 = Font.custom("RobotoMono-Bold", size: 32)
@@ -36,6 +37,7 @@ extension Font {
 
 extension UIFont {
     //Heading
+    static let largeHeading = UIFont(name:"RobotoMono-Bold", size: 58)!
     static let h1 = UIFont(name:"RobotoMono-Bold", size: 42)!
     static let h2 = UIFont(name:"RobotoMono-Bold", size: 36)!
     static let h3 = UIFont(name:"RobotoMono-Bold", size: 32)!

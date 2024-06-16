@@ -30,6 +30,10 @@
 		CC1D2E692C1B65EF00304CCB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E682C1B65EF00304CCB /* Color.swift */; };
 		CC1D2E752C1E0D1600304CCB /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E742C1E0D1600304CCB /* Typography.swift */; };
 		CC1D2E772C1E101D00304CCB /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D2E762C1E101D00304CCB /* Forecast.swift */; };
+		CC93D67F2C1F76CE0068F0D3 /* ErrorDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC93D67E2C1F76CE0068F0D3 /* ErrorDialogView.swift */; };
+		CC93D6812C1F76D70068F0D3 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC93D6802C1F76D70068F0D3 /* ButtonStyles.swift */; };
+		CC93D6832C1F77320068F0D3 /* ErrorDialogContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC93D6822C1F77320068F0D3 /* ErrorDialogContainer.swift */; };
+		CC93D6862C1F7A270068F0D3 /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC93D6852C1F7A270068F0D3 /* CircleProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +66,10 @@
 		CC1D2E782C1F685F00304CCB /* RobotoMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Bold.ttf"; sourceTree = "<group>"; };
 		CC1D2E792C1F685F00304CCB /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		CC1D2E7A2C1F686000304CCB /* RobotoMono-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-SemiBold.ttf"; sourceTree = "<group>"; };
+		CC93D67E2C1F76CE0068F0D3 /* ErrorDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDialogView.swift; sourceTree = "<group>"; };
+		CC93D6802C1F76D70068F0D3 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		CC93D6822C1F77320068F0D3 /* ErrorDialogContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDialogContainer.swift; sourceTree = "<group>"; };
+		CC93D6852C1F7A270068F0D3 /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +189,10 @@
 		CC1D2E412C1B625700304CCB /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				CC93D6842C1F7A150068F0D3 /* Progress */,
+				CC93D67D2C1F76C20068F0D3 /* ErrorDialog */,
+				CC93D67C2C1F76BB0068F0D3 /* ButtonStyles */,
+				CC93D67B2C1F76A30068F0D3 /* New Group */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -236,6 +248,38 @@
 				CC1D2E762C1E101D00304CCB /* Forecast.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		CC93D67B2C1F76A30068F0D3 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		CC93D67C2C1F76BB0068F0D3 /* ButtonStyles */ = {
+			isa = PBXGroup;
+			children = (
+				CC93D6802C1F76D70068F0D3 /* ButtonStyles.swift */,
+			);
+			path = ButtonStyles;
+			sourceTree = "<group>";
+		};
+		CC93D67D2C1F76C20068F0D3 /* ErrorDialog */ = {
+			isa = PBXGroup;
+			children = (
+				CC93D67E2C1F76CE0068F0D3 /* ErrorDialogView.swift */,
+				CC93D6822C1F77320068F0D3 /* ErrorDialogContainer.swift */,
+			);
+			path = ErrorDialog;
+			sourceTree = "<group>";
+		};
+		CC93D6842C1F7A150068F0D3 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				CC93D6852C1F7A270068F0D3 /* CircleProgressView.swift */,
+			);
+			path = Progress;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,7 +360,9 @@
 				CC1D2E5D2C1B637A00304CCB /* Services.swift in Sources */,
 				CC1D2E5F2C1B638200304CCB /* Weather.swift in Sources */,
 				CC1D2E4C2C1B62BB00304CCB /* MapView.swift in Sources */,
+				CC93D6812C1F76D70068F0D3 /* ButtonStyles.swift in Sources */,
 				CC1D2E642C1B63B700304CCB /* ApiErrors.swift in Sources */,
+				CC93D6832C1F77320068F0D3 /* ErrorDialogContainer.swift in Sources */,
 				CC1D2E2F2C1B614900304CCB /* ContentView.swift in Sources */,
 				CC1D2E752C1E0D1600304CCB /* Typography.swift in Sources */,
 				CC1D2E432C1B627700304CCB /* Color+Extension.swift in Sources */,
@@ -327,7 +373,9 @@
 				CC1D2E772C1E101D00304CCB /* Forecast.swift in Sources */,
 				CC1D2E2D2C1B614900304CCB /* DVTWeatherAppApp.swift in Sources */,
 				CC1D2E592C1B62FF00304CCB /* MapCoordinator.swift in Sources */,
+				CC93D67F2C1F76CE0068F0D3 /* ErrorDialogView.swift in Sources */,
 				CC1D2E4A2C1B62B300304CCB /* ProfileViewModel.swift in Sources */,
+				CC93D6862C1F7A270068F0D3 /* CircleProgressView.swift in Sources */,
 				CC1D2E572C1B62F800304CCB /* HomeCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

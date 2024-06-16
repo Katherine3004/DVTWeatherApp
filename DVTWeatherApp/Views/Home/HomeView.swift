@@ -12,81 +12,104 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
     @StateObject var vm: ViewModel
     
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            if let weather = vm.weather {
-                if let condition = vm.weather?.weather?.first?.main {
-                    ScrollView(showsIndicators: false) {
-                        VStack(alignment: .center, spacing: 0) {
-                            ZStack(alignment: .center) {
-                                Image(weatherBackground(for: condition))
-                                    .resizable()
-                                    .frame(height: 383)
-                                    .frame(maxWidth: .infinity)
-                                
-                                currentTemp(currentTemp: weather.main?.temp, currentCondition: condition)
-                            }
-                            
-                            HStack(alignment: .center, spacing: 0) {
-                                //Min
-                                tempData(temp: weather.main?.tempMin, label: "min")
-                                Spacer()
-                                //Current
-                                tempData(temp: weather.main?.temp, label: "Current")
-                                Spacer()
-                                //Max
-                                tempData(temp: weather.main?.tempMax, label: "max")
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.top, 2)
-                            .padding(.bottom, 4)
-                            
-                            Rectangle()
-                                .fill(.white)
-                                .frame(height: 1)
-                                .frame(maxWidth: .infinity)
-                            
-                            if let forecast = vm.forecast {
-                                VStack(alignment: .leading, spacing: 8) {
-                                    
-                                    ForEach(getFilteredForecasts(from: forecast).prefix(5), id: \.dt) { item in
-                                        forecastData(
-                                            dayOfWeek: item.dtTxt,
-                                            condition: item.weather?.first?.main ?? "",
-                                            temp: item.main?.temp)
-                                    }
-                                }
-                                .frame(maxWidth: .infinity)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 24)
-                            }
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                        .background(
-                            Rectangle()
-                                .fill(weatherBackgroundColor(for: condition))
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        )
-                    }
-                    .background(weatherBackgroundColor(for: condition))
-                }
-            } 
-            else {
-                Text("Loading weather...")
-                    .font(.title)
+        ZStack(alignment: .center) {
+            switch vm.state {
+            case .loading:
+                loadingContent
+            case let .loaded(weather, forecast):
+                loadedContent(weather: weather, forecast: forecast)
+                Text("")
             }
         }
+        .dialog(isShowing: $vm.showErrorDialog) {
+            ErrorDialogView(title: vm.errorTitle, description: vm.errorMessage, retry: { vm.load() })
+        }
         .edgesIgnoringSafeArea(.top)
+        .onAppear {
+            vm.load()
+        }
     }
+    
+    //loading Content
+    var loadingContent: some View {
+        VStack(alignment: .center, spacing: 16) {
+            Text("Fetching the weather")
+                .font(.h5)
+                .foregroundStyle(Color.darkCloudy)
+            CircleProgressView()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    //loaded Content
+    func loadedContent(weather: Weather, forecast: Forecast) -> some View {
+        Group {
+            if let condition = weather.weather?.first?.main {
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .center, spacing: 0) {
+                        ZStack(alignment: .center) {
+                            Image(weatherBackground(for: condition))
+                                .resizable()
+                                .frame(height: 383)
+                                .frame(maxWidth: .infinity)
+                            
+                            currentTemp(currentTemp: weather.main?.temp, currentCondition: condition)
+                        }
+                        
+                        HStack(alignment: .center, spacing: 0) {
+                            //Min
+                            tempData(temp: weather.main?.tempMin, label: "min")
+                            Spacer()
+                            //Current
+                            tempData(temp: weather.main?.temp, label: "Current")
+                            Spacer()
+                            //Max
+                            tempData(temp: weather.main?.tempMax, label: "max")
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 2)
+                        .padding(.bottom, 4)
+                        
+                        Rectangle()
+                            .fill(.white)
+                            .frame(height: 1)
+                            .frame(maxWidth: .infinity)
+                        
+                        VStack(alignment: .leading, spacing: 16) {
+                            ForEach(getFilteredForecasts(from: forecast).prefix(5), id: \.dt) { item in
+                                forecastData(
+                                    dayOfWeek: item.dtTxt,
+                                    condition: item.weather?.first?.main ?? "",
+                                    temp: item.main?.temp)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 24)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    .background(
+                        Rectangle()
+                            .fill(weatherBackgroundColor(for: condition))
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    )
+                }
+                .background(weatherBackgroundColor(for: condition))
+            }
+        }
+    }
+    
+    //error Content
     
     //Current Temperature and Current Condition
     func currentTemp(currentTemp: Double?, currentCondition: String) -> some View {
         VStack(alignment: .center, spacing: 12) {
             let tempString = String(format: "%.0f", ceil(currentTemp ?? 0))
             Text("\(tempString)°")
-                .font(.h3)
+                .font(.largeHeading)
                 .foregroundStyle(Color.white)
             Text(currentCondition)
-                .font(.body18)
+                .font(.h4)
                 .foregroundStyle(Color.white)
                 .textCase(.uppercase)
         }
@@ -117,10 +140,9 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
                         .foregroundStyle(Color.white)
                         .frame(width: geometry.size.width * ((100 / 3) / 100), alignment: .leading)
                     
-                    Image(systemName: forecastIcon(for: condition))
-                        .renderingMode(.template)
-                        .foregroundStyle(Color.white)
-                        .scaleEffect(x: -1, y: 1)
+                    Image(forecastIcon(for: condition))
+                        .resizable()
+                        .frame(width: 32, height: 32)
                         .frame(width: geometry.size.width * ((100 / 3) / 100), alignment: .center)
                     
                     Text("\(tempString)°")
@@ -178,11 +200,11 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
     func forecastIcon(for condition: String) -> String {
         switch condition {
         case "Clear":
-            return "sun.max"
+            return "clear"
         case "Clouds":
-            return "cloud.sun"
+            return "partlysunny"
         case "Rain":
-            return "cloud.rain"
+            return "rain"
         default:
             return "sun.max"
         }
@@ -208,16 +230,16 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
     }
 }
 
-struct HomeView_Preview: PreviewProvider {
-    static var previews: some View {
-        let weatherElements = [
-            WeatherElement(id: 800, main: "Clear", description: "clear sky", icon: "01n")
-        ]
-        let main = Main(temp: 310.85, feelsLike: 309.03, tempMin: 310.44, tempMax: 310.85, pressure: 1007, seaLevel: 18, grndLevel: 1007, humidity: 989, tempKf: 1)
-        let wind = Wind(speed: 7.77, deg: 21, gust: 11.92)
-        let clouds = Clouds(all: 0)
-        let sys = Sys(type: 1, id: 2514, country: "EG", sunrise: 1718333689, sunset: 1718384268)
-        let weather = Weather(coord: Coord(lon: 31.02, lat: 29.85), weather: weatherElements, base: "stations", main: main, visibility: 10000, wind: wind, clouds: clouds, dt: 1718387245, sys: sys, timezone: 10800, id: 353219, name: "Madīnat Sittah Uktūbar", cod: 200)
-        HomeView(vm: HomeViewModelPreview(weather: weather))
-    }
-}
+//struct HomeView_Preview: PreviewProvider {
+//    static var previews: some View {
+//        let weatherElements = [
+//            WeatherElement(id: 800, main: "Clear", description: "clear sky", icon: "01n")
+//        ]
+//        let main = Main(temp: 310.85, feelsLike: 309.03, tempMin: 310.44, tempMax: 310.85, pressure: 1007, seaLevel: 18, grndLevel: 1007, humidity: 989, tempKf: 1)
+//        let wind = Wind(speed: 7.77, deg: 21, gust: 11.92)
+//        let clouds = Clouds(all: 0)
+//        let sys = Sys(type: 1, id: 2514, country: "EG", sunrise: 1718333689, sunset: 1718384268)
+//        let weather = Weather(coord: Coord(lon: 31.02, lat: 29.85), weather: weatherElements, base: "stations", main: main, visibility: 10000, wind: wind, clouds: clouds, dt: 1718387245, sys: sys, timezone: 10800, id: 353219, name: "Madīnat Sittah Uktūbar", cod: 200)
+//        HomeView(vm: HomeViewModelPreview(weather: weather))
+//    }
+//}

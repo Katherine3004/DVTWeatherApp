@@ -9,24 +9,28 @@ import SwiftUI
 
 enum HomeViewState {
     case loading
-    case loaded
-    case error
+    case loaded(weather: Weather, forecast: Forecast)
 }
 
 protocol HomeViewModelType: ObservableObject {
     var state: HomeViewState { get set }
-    var weather: Weather? { get set }
-    var forecast: Forecast? { get set }
     
-    func fetachWeather()
-    func fetchForecase()
+    //error
+    var showErrorDialog: Bool { get set }
+    var errorMessage: String { get set }
+    var errorTitle: String { get set }
+    
+    func load()
 }
 
 class HomeViewModel: ObservableObject,  HomeViewModelType {
     
     @Published var state: HomeViewState = .loading
-    @Published var weather: Weather?
-    @Published var forecast: Forecast?
+    
+    //error
+    var showErrorDialog: Bool = false
+    var errorMessage: String = ""
+    var errorTitle: String = ""
     
     let services: Services
     
@@ -35,38 +39,37 @@ class HomeViewModel: ObservableObject,  HomeViewModelType {
     init(services: Services, coordinator: HomeCoordinator? = nil) {
         self.services = services
         self.coordinator = coordinator
-        
-        fetachWeather()
-        fetchForecase()
     }
     
-    func fetachWeather() {
+    func load() {
+        self.state = .loading
         Task {
             do {
-                let response = try await services.weatherService.fetchWeather(lat: "-29.85", long: "31.02")
+                let weatherResponse = try await services.weatherService.fetchWeather(lat: "-29.85", long: "31.02")
+                let forecastResponse = try await services.weatherService.fetchForecast(lat: "-29.85", long: "31.02")
                 
-                await MainActor.run {
-                    self.weather = response
-                }
+                await updateState(state: .loaded(weather: weatherResponse, forecast: forecastResponse))
             }
             catch {
-                print("DEBUG func fetachWeather(): Error \(error)")
+                
+                await updateErrorDialog(show: true, title: "Loading Error", message: error.localizedDescription)
             }
         }
     }
     
-    func fetchForecase() {
-        Task {
-            do {
-                let response = try await services.weatherService.fetchForecast(lat: "-29.85", long: "31.02")
-                
-                await MainActor.run {
-                    self.forecast = response
-                }
-            }
-            catch {
-                print("DEBUG func fetchForecase(): Error \(error)")
-            }
+    @MainActor
+    private func updateState(state: HomeViewState) {
+        withAnimation(.easeInOut(duration: 0.25)) {
+            self.state = state
+        }
+    }
+    
+    @MainActor
+    private func updateErrorDialog(show: Bool, title: String, message: String) {
+        withAnimation(.easeInOut(duration: 0.25)) {
+            self.showErrorDialog = show
+            self.errorTitle = title
+            self.errorMessage = message
         }
     }
 }
@@ -74,13 +77,15 @@ class HomeViewModel: ObservableObject,  HomeViewModelType {
 class HomeViewModelPreview: ObservableObject,  HomeViewModelType {
     
     @Published var state: HomeViewState = .loading
-    var weather: Weather?
-    @Published var forecast: Forecast?
     
-    init(weather: Weather?) {
-        self.weather = weather
+    //error
+    var showErrorDialog: Bool = false
+    var errorMessage: String = ""
+    var errorTitle: String = ""
+    
+    init() {
+        
     }
     
-    func fetachWeather() {}
-    func fetchForecase() {}
+    func load() {}
 }
