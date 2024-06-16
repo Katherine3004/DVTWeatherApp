@@ -7,70 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2E77A30F-B88B-4FF6-A5A4-5325F7A7500B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DVTWeatherApp/API/WeatherService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "baseUrl"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "2E77A30F-B88B-4FF6-A5A4-5325F7A7500B - 25a0a44e5feb6060"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "DVTWeatherApp.WeatherAPI.init() -&gt; DVTWeatherApp.WeatherAPI"
-                  moduleName = "DVTWeatherApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/katherinechambers/Project/DVTWeatherApp/DVTWeatherApp/API/WeatherService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "52">
-               </Location>
-               <Location
-                  uuid = "2E77A30F-B88B-4FF6-A5A4-5325F7A7500B - 25a0a44e5feb6181"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "DVTWeatherApp.WeatherAPI.init() -&gt; DVTWeatherApp.WeatherAPI"
-                  moduleName = "DVTWeatherApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/katherinechambers/Project/DVTWeatherApp/DVTWeatherApp/API/WeatherService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "52">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F3817D92-B38E-48BE-97D9-F3CC0FE64260"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DVTWeatherApp/Views/Home/HomeView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "6F24CF4B-F8F5-435B-9880-648AB13AB921"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -78,9 +14,9 @@
             filePath = "DVTWeatherApp/Views/Home/HomeViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "fetachWeather(lat:long:)"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "fetachWeather()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -156,25 +92,9 @@
             filePath = "DVTWeatherApp/Views/Home/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "currentTemp(currentTemp:currentCondition:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F7216186-83F4-4683-B4C7-D49088D96DF4"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DVTWeatherApp/Views/Home/HomeView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "kelvinToCelsius(kelvin:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
