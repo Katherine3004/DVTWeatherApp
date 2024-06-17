@@ -68,16 +68,16 @@ class TabController: UITabBarController, TabIndexDelegate {
         homeCoordinator.start()
         profileCoordinator.start()
         
-        viewControllers = [mapCoordinator.navigationController,
-                           homeCoordinator.navigationController,
+        viewControllers = [homeCoordinator.navigationController,
+                           mapCoordinator.navigationController,
                            profileCoordinator.navigationController]
     }
     
     private func setTabBarItemBadgeAppearance(_ itemAppearance: UITabBarItemAppearance) {
         itemAppearance.normal.badgeBackgroundColor = UIColor(hex: 0x93C6E7, alpha: 1)
         
-        itemAppearance.selected.iconColor = UIColor(hex: 0x93C6E7, alpha: 1)
-        itemAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor(hex: 0x93C6E7, alpha: 1)]
+        itemAppearance.selected.iconColor = .cloudy
+        itemAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.cloudy]
         
     }
     
