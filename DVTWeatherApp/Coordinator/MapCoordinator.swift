@@ -12,6 +12,7 @@ import Foundation
 class MapCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, ObservableObject {
     
     private let services: Services
+    private let locationManager: LocationManager
     
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
@@ -20,11 +21,13 @@ class MapCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Obs
     init(navigationController: UINavigationController, services: Services) {
         self.navigationController = navigationController
         self.services = services
+        
+        self.locationManager = LocationManager()
     }
     
     func start() {
         navigationController.delegate = self
-        let vm = MapViewModel(services: services, coordinator: self)
+        let vm = MapViewModel(services: services, locationManager: locationManager, coordinator: self)
         let vc = UIHostingController(rootView: MapView(vm: vm))
         vc.tabBarItem = UITabBarItem(title: "Map",
                                      image: UIImage(systemName: "map"),

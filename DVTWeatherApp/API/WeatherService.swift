@@ -19,6 +19,7 @@ class WeatherAPI: WeatherService {
     
     func fetchWeather(lat: String, long: String) async throws -> Weather {
         let urlString = "\(baseUrl)weather?lat=\(lat)&lon=\(long)&appid=\(apiKey)&units=metric"
+        print(urlString)
         guard let url = URL(string: urlString) else { throw ApiError.urlError(message: "Error Fetching Weather Data") }
         
         do {
@@ -30,13 +31,11 @@ class WeatherAPI: WeatherService {
     
     func fetchForecast(lat: String, long: String) async throws -> Forecast {
         let urlString = "\(baseUrl)forecast?lat=\(lat)&lon=\(long)&appid=\(apiKey)&units=metric"
+        print(urlString)
         guard let url = URL(string: urlString) else { throw ApiError.urlError(message: "Error Fetching Forecast Data") }
         
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("DEBUG: Raw JSON response: \(jsonString)")
-            }
             let response = try JSONDecoder().decode(Forecast.self, from: data)
             return response
         }

@@ -16,17 +16,15 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
             switch vm.state {
             case .loading:
                 loadingContent
-            case let .loaded(weather, forecast):
-                loadedContent(weather: weather, forecast: forecast)
-                Text("")
+            case .loaded:
+                loadedContent(weather: vm.weather, forecast: vm.forecast)
+            case let .error(title, message):
+                errorContent(title: title, message: message)
             }
         }
-        .dialog(isShowing: $vm.showErrorDialog) {
-            ErrorDialogView(title: vm.errorTitle, description: vm.errorMessage, retry: { vm.load() })
-        }
         .edgesIgnoringSafeArea(.top)
-        .onAppear {
-            vm.load()
+        .fullScreenCover(isPresented: $vm.showLocationPermissionSheet) {
+            LocationPermissionView(closePermissionSheet: { vm.showLocationPermissionSheet = false })
         }
     }
     
@@ -42,64 +40,89 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
     }
     
     //loaded Content
-    func loadedContent(weather: Weather, forecast: Forecast) -> some View {
+    func loadedContent(weather: Weather?, forecast: Forecast?) -> some View {
         Group {
-            if let condition = weather.weather?.first?.main {
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .center, spacing: 0) {
-                        ZStack(alignment: .center) {
-                            Image(weatherBackground(for: condition))
-                                .resizable()
-                                .frame(height: 383)
+            if let weather = weather, let forecast = forecast {
+                if let condition = weather.weather?.first?.main {
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .center, spacing: 0) {
+                            ZStack(alignment: .center) {
+                                Image(weatherBackground(for: condition))
+                                    .resizable()
+                                    .frame(height: 383)
+                                    .frame(maxWidth: .infinity)
+                                
+                                currentTemp(currentTemp: weather.main?.temp, currentCondition: condition)
+                            }
+                            
+                            HStack(alignment: .center, spacing: 0) {
+                                //Min
+                                tempData(temp: weather.main?.tempMin, label: "min")
+                                Spacer()
+                                //Current
+                                tempData(temp: weather.main?.temp, label: "Current")
+                                Spacer()
+                                //Max
+                                tempData(temp: weather.main?.tempMax, label: "max")
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.top, 2)
+                            .padding(.bottom, 4)
+                            
+                            Rectangle()
+                                .fill(.white)
+                                .frame(height: 1)
                                 .frame(maxWidth: .infinity)
                             
-                            currentTemp(currentTemp: weather.main?.temp, currentCondition: condition)
-                        }
-                        
-                        HStack(alignment: .center, spacing: 0) {
-                            //Min
-                            tempData(temp: weather.main?.tempMin, label: "min")
-                            Spacer()
-                            //Current
-                            tempData(temp: weather.main?.temp, label: "Current")
-                            Spacer()
-                            //Max
-                            tempData(temp: weather.main?.tempMax, label: "max")
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.top, 2)
-                        .padding(.bottom, 4)
-                        
-                        Rectangle()
-                            .fill(.white)
-                            .frame(height: 1)
-                            .frame(maxWidth: .infinity)
-                        
-                        VStack(alignment: .leading, spacing: 16) {
-                            ForEach(getFilteredForecasts(from: forecast).prefix(5), id: \.dt) { item in
-                                forecastData(
-                                    dayOfWeek: item.dtTxt,
-                                    condition: item.weather?.first?.main ?? "",
-                                    temp: item.main?.temp)
+                            VStack(alignment: .leading, spacing: 16) {
+                                ForEach(getFilteredForecasts(from: forecast).prefix(5), id: \.dt) { item in
+                                    forecastData(
+                                        dayOfWeek: item.dtTxt,
+                                        condition: item.weather?.first?.main ?? "",
+                                        temp: item.main?.temp)
+                                }
                             }
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 24)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 24)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                        .background(
+                            Rectangle()
+                                .fill(weatherBackgroundColor(for: condition))
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        )
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                    .background(
-                        Rectangle()
-                            .fill(weatherBackgroundColor(for: condition))
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    )
+                    .background(weatherBackgroundColor(for: condition))
                 }
-                .background(weatherBackgroundColor(for: condition))
             }
         }
     }
     
     //error Content
+    func errorContent(title: String, message: String) -> some View {
+        VStack(alignment: .center, spacing: 8) {
+            Image(systemName: "exclamationmark.icloud.fill")
+                .font(.system(size: 52))
+                .foregroundStyle(Color.cloudy)
+                .padding(.bottom, 8)
+            Text(title)
+                .font(.h3)
+                .foregroundStyle(Color.cloudy)
+            Text(message)
+                .font(.body18)
+                .foregroundStyle(Color.cloudy)
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 16)
+            
+            Button(action: { vm.load() }, label: {
+                Text("Retry")
+            })
+            .buttonStyle(PrimaryButtonStyle())
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .padding(.all, 16)
+    }
     
     //Current Temperature and Current Condition
     func currentTemp(currentTemp: Double?, currentCondition: String) -> some View {
@@ -113,6 +136,7 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
                 .foregroundStyle(Color.white)
                 .textCase(.uppercase)
         }
+        .frame(maxWidth: .infinity, alignment: .center)
     }
     
     //Temperature and Label For Todays Min, Current and Max

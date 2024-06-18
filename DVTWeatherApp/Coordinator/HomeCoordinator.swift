@@ -12,6 +12,7 @@ import Foundation
 class HomeCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, ObservableObject {
     
     private let services: Services
+    private let locationManager: LocationManager
     
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
@@ -19,11 +20,12 @@ class HomeCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ob
     init(navigationController: UINavigationController, services: Services) {
         self.navigationController = navigationController
         self.services = services
+        self.locationManager = LocationManager()
     }
     
     func start() {
         navigationController.delegate = self
-        let vm = HomeViewModel(services: services, coordinator: self)
+        let vm = HomeViewModel(services: services, locationManager: locationManager, coordinator: self)
         let vc = UIHostingController(rootView: HomeView(vm:vm))
         vc.tabBarItem = UITabBarItem(title: "Home",
                                      image: UIImage(systemName: "house"),

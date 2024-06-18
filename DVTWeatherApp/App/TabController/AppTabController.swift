@@ -33,14 +33,12 @@ class TabController: UITabBarController, TabIndexDelegate {
     
     private let homeCoordinator: HomeCoordinator
     private let mapCoordinator: MapCoordinator
-    private let profileCoordinator: ProfileCoordinator
     
     init(services: Services) {
         self.services = services
         
         self.mapCoordinator = MapCoordinator(navigationController: UINavigationController(), services: services)
         self.homeCoordinator = HomeCoordinator(navigationController: UINavigationController(), services: services)
-        self.profileCoordinator = ProfileCoordinator(navigationController: UINavigationController(), services: services)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -66,11 +64,9 @@ class TabController: UITabBarController, TabIndexDelegate {
         
         mapCoordinator.start()
         homeCoordinator.start()
-        profileCoordinator.start()
         
         viewControllers = [homeCoordinator.navigationController,
-                           mapCoordinator.navigationController,
-                           profileCoordinator.navigationController]
+                           mapCoordinator.navigationController]
     }
     
     private func setTabBarItemBadgeAppearance(_ itemAppearance: UITabBarItemAppearance) {
