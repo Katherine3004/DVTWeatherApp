@@ -32,7 +32,7 @@
 		CC612E422C24AC58005BF64A /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CC612E412C24AC58005BF64A /* FirebaseAnalyticsSwift */; };
 		CC612E442C24AC58005BF64A /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = CC612E432C24AC58005BF64A /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		CC612E462C24AC58005BF64A /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = CC612E452C24AC58005BF64A /* FirebaseAppCheck */; };
-		CC612E492C25586F005BF64A /* FirebaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC612E482C25586F005BF64A /* FirebaseViewModel.swift */; };
+		CC612E492C25586F005BF64A /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC612E482C25586F005BF64A /* FirebaseManager.swift */; };
 		CC612E4B2C25591F005BF64A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC612E4A2C25591F005BF64A /* Location.swift */; };
 		CC822F0B2C25621000CCEA9C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = CC822F0A2C25621000CCEA9C /* FirebaseDatabase */; };
 		CC93D67F2C1F76CE0068F0D3 /* ErrorDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC93D67E2C1F76CE0068F0D3 /* ErrorDialogView.swift */; };
@@ -71,7 +71,7 @@
 		CC1D2E782C1F685F00304CCB /* RobotoMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Bold.ttf"; sourceTree = "<group>"; };
 		CC1D2E792C1F685F00304CCB /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		CC1D2E7A2C1F686000304CCB /* RobotoMono-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-SemiBold.ttf"; sourceTree = "<group>"; };
-		CC612E482C25586F005BF64A /* FirebaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseViewModel.swift; sourceTree = "<group>"; };
+		CC612E482C25586F005BF64A /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		CC612E4A2C25591F005BF64A /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		CC93D67E2C1F76CE0068F0D3 /* ErrorDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDialogView.swift; sourceTree = "<group>"; };
 		CC93D6802C1F76D70068F0D3 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
@@ -262,7 +262,7 @@
 		CC612E472C25584C005BF64A /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				CC612E482C25586F005BF64A /* FirebaseViewModel.swift */,
+				CC612E482C25586F005BF64A /* FirebaseManager.swift */,
 				CC612E4A2C25591F005BF64A /* Location.swift */,
 			);
 			path = Firebase;
@@ -413,7 +413,7 @@
 				CC1D2E2F2C1B614900304CCB /* ContentView.swift in Sources */,
 				CC93D6892C201D2F0068F0D3 /* LocationManager.swift in Sources */,
 				CC1D2E752C1E0D1600304CCB /* Typography.swift in Sources */,
-				CC612E492C25586F005BF64A /* FirebaseViewModel.swift in Sources */,
+				CC612E492C25586F005BF64A /* FirebaseManager.swift in Sources */,
 				CC1D2E432C1B627700304CCB /* Color+Extension.swift in Sources */,
 				CC1D2E692C1B65EF00304CCB /* Color.swift in Sources */,
 				CC1D2E4E2C1B62C300304CCB /* MapViewModel.swift in Sources */,

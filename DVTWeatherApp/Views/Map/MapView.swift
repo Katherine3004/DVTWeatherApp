@@ -27,20 +27,17 @@ struct MapView<ViewModel: MapViewModelType>: View {
     var viewContent: some View {
         Group {
             VStack(alignment: .center, spacing: 0) {
-                Button(action: { vm.showFavouriteSheet = true }, label: {
-                    HStack(alignment: .center, spacing: 8) {
-                        Text("Favourites")
-                            .font(.body16SemiBold)
+                HStack(alignment: .center, spacing: 0) {
+                    //search bar will go here
+                    Button(action: { vm.showFavouriteSheet = true }, label: {
+                        Image(systemName: "star")
+                            .font(.system(size: 16))
                             .foregroundStyle(Color.cloudy)
-                        Image(systemName: "chevron.down")
-                            .font(.system(size: 14))
-                            .foregroundStyle(Color.cloudy)
-                    }
-                    .frame(maxWidth: .infinity)
-                })
-                .buttonStyle(SecondaryButtonStyle())
-                .padding(.top, 68)
-                .padding([.horizontal, .bottom], 16)
+                    })
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.top, 100)
+                    .padding([.horizontal, .bottom], 16)
+                }
                 
                 Map(coordinateRegion: $vm.region, annotationItems: vm.annotations) {
                     MapPin(coordinate: $0.coordinate)
@@ -66,13 +63,27 @@ struct MapView<ViewModel: MapViewModelType>: View {
                     }
             }
             ScrollView(showsIndicators: false) {
-                ForEach(vm.annotations, id: \.id) { annotation in
-                    Button(action: { print(annotation.name) }, label: {
-                        Text(annotation.name)
-                            .font(.body16)
-                            .foregroundStyle(Color.cloudy)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    })
+                VStack(alignment: .leading, spacing: 16) {
+                    ForEach(vm.annotations, id: \.id) { annotation in
+                        Button(action: { print(annotation.name) }, label: {
+                            HStack(alignment: .center, spacing: 0) {
+                                Text(annotation.name)
+                                    .font(.body16)
+                                    .foregroundStyle(Color.cloudy)
+                                Spacer()
+                                if annotation.name != "Current Location" {
+                                    Button(action: { vm.deleteFavourite(name: annotation.name) }, label: {
+                                        Image(systemName: "trash")
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(Color.darkCloudy)
+                                    })
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                            }
+                            .contentShape(Rectangle())
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
             }
         }

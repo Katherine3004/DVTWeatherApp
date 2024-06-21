@@ -18,6 +18,8 @@ protocol MapViewModelType: ObservableObject {
     var showLocationPermissionSheet: Bool { get set }
     var showFavouriteSheet: Bool { get set }
     
+    func deleteFavourite(name: String)
+    
 }
 
 class MapViewModel: ObservableObject, MapViewModelType {
@@ -31,22 +33,26 @@ class MapViewModel: ObservableObject, MapViewModelType {
     
     let services: Services
     let locationManager: LocationManager
+    let firebaseManager: FirebaseManager
     
     weak var coordinator: MapCoordinator?
     
     var annotations: [AnnotationData] {
-        if let location = self.location {
-            return [AnnotationData(name: "Current Location", coordinate: location.coordinate)]
+        var allAnnotations: [AnnotationData] = firebaseManager.locations.map {
+            AnnotationData(name: $0.name, coordinate: CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.long))
         }
-        else {
-            return []
-       }
-    }
+        if let location = self.location {
+            allAnnotations.insert(AnnotationData(name: "Current Location", coordinate: location.coordinate), at: 0)
+        }
+        return allAnnotations
+ }
     
     init(services: Services, locationManager: LocationManager, coordinator: MapCoordinator? = nil) {
         self.services = services
         self.coordinator = coordinator
         self.locationManager = locationManager
+        
+        self.firebaseManager = FirebaseManager()
         
         load()
     }
@@ -54,9 +60,14 @@ class MapViewModel: ObservableObject, MapViewModelType {
     
     func load() {
         Task {
+            await fetchLocations()
             await checkLocationPermission()
             await getCurrentLocation()
         }
+    }
+    
+    func fetchLocations() async {
+        firebaseManager.fetchLocations()
     }
     
     
@@ -91,5 +102,9 @@ class MapViewModel: ObservableObject, MapViewModelType {
             await getCurrentLocation()
         default: break
         }
+    }
+    
+    func deleteFavourite(name: String) {
+        firebaseManager.deleteLocation(name: name)
     }
 }

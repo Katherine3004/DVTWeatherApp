@@ -1,5 +1,5 @@
 //
-//  FirebaseViewModel.swift
+//  FirebaseManager.swift
 //  DVTWeatherApp
 //
 //  Created by Katherine Chambers on 2024/06/21.
@@ -9,10 +9,13 @@ import Foundation
 import Firebase
 import Combine
 import FirebaseDatabase
+import CoreLocation
 
-class FirebaseViewModel: ObservableObject {
+
+class FirebaseManager: ObservableObject {
     
     @Published var locations: [Location] = []
+    @Published var location: CLLocation?
     
     private var ref: DatabaseReference = Database.database().reference()
     
@@ -30,9 +33,12 @@ class FirebaseViewModel: ObservableObject {
                    let lat = value["lat"] as? Double,
                    let long = value["long"] as? Double {
                     let location = Location(name: name, lat: lat, long: long)
+                    newLocations.append(location)  // Corrected line
                 }
             }
-            self.locations = newLocations
+            DispatchQueue.main.async {
+                self.locations = newLocations
+            }
         }
     }
     
