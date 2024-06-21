@@ -15,10 +15,15 @@ protocol MapViewModelType: ObservableObject {
     
     var annotations: [AnnotationData] { get }
     
+    var query: String { get set }
+    var searchResults: [AnnotationData] { get set }
+    
     var showLocationPermissionSheet: Bool { get set }
     var showFavouriteSheet: Bool { get set }
+    var showSearchSheet: Bool { get set }
     
     func deleteFavourite(name: String)
+    func addLocation(name: String, coordinate: CLLocationCoordinate2D)
     
 }
 
@@ -28,8 +33,12 @@ class MapViewModel: ObservableObject, MapViewModelType {
     
     @Published var location: CLLocation?
     
+    @Published var query: String = ""
+    @Published var searchResults: [AnnotationData] = []
+    
     @Published var showLocationPermissionSheet: Bool = false
     @Published var showFavouriteSheet: Bool = false
+    @Published var showSearchSheet: Bool = true
     
     let services: Services
     let locationManager: LocationManager
@@ -106,5 +115,9 @@ class MapViewModel: ObservableObject, MapViewModelType {
     
     func deleteFavourite(name: String) {
         firebaseManager.deleteLocation(name: name)
+    }
+    
+    func addLocation(name: String, coordinate: CLLocationCoordinate2D) {
+        firebaseManager.addLocation(name: name, lat: coordinate.latitude, long: coordinate.longitude)
     }
 }

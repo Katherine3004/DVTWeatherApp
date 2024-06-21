@@ -35,6 +35,7 @@
 		CC612E492C25586F005BF64A /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC612E482C25586F005BF64A /* FirebaseManager.swift */; };
 		CC612E4B2C25591F005BF64A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC612E4A2C25591F005BF64A /* Location.swift */; };
 		CC822F0B2C25621000CCEA9C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = CC822F0A2C25621000CCEA9C /* FirebaseDatabase */; };
+		CC822F132C25F84800CCEA9C /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC822F122C25F84800CCEA9C /* SearchService.swift */; };
 		CC93D67F2C1F76CE0068F0D3 /* ErrorDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC93D67E2C1F76CE0068F0D3 /* ErrorDialogView.swift */; };
 		CC93D6812C1F76D70068F0D3 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC93D6802C1F76D70068F0D3 /* ButtonStyles.swift */; };
 		CC93D6832C1F77320068F0D3 /* ErrorDialogContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC93D6822C1F77320068F0D3 /* ErrorDialogContainer.swift */; };
@@ -73,6 +74,7 @@
 		CC1D2E7A2C1F686000304CCB /* RobotoMono-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-SemiBold.ttf"; sourceTree = "<group>"; };
 		CC612E482C25586F005BF64A /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		CC612E4A2C25591F005BF64A /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		CC822F122C25F84800CCEA9C /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
 		CC93D67E2C1F76CE0068F0D3 /* ErrorDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDialogView.swift; sourceTree = "<group>"; };
 		CC93D6802C1F76D70068F0D3 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		CC93D6822C1F77320068F0D3 /* ErrorDialogContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDialogContainer.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				CC1D2E622C1B63AD00304CCB /* APIError */,
 				CC1D2E5C2C1B637A00304CCB /* Services.swift */,
 				CC1D2E602C1B638A00304CCB /* WeatherService.swift */,
+				CC822F122C25F84800CCEA9C /* SearchService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC822F132C25F84800CCEA9C /* SearchService.swift in Sources */,
 				CC1D2E612C1B638A00304CCB /* WeatherService.swift in Sources */,
 				CC1D2E522C1B62D200304CCB /* HomeViewModel.swift in Sources */,
 				CC1D2E672C1B643700304CCB /* AppTabController.swift in Sources */,
