@@ -30,9 +30,10 @@ class FirebaseManager: ObservableObject {
                 if let snapShot = child as? DataSnapshot,
                    let value = snapShot.value as? [String: Any],
                    let name = value["name"] as? String,
+                   let subtitle = value["subtitle"] as? String,
                    let lat = value["lat"] as? Double,
                    let long = value["long"] as? Double {
-                    let location = Location(name: name, lat: lat, long: long)
+                    let location = Location(name: name, subTitle: subtitle, lat: lat, long: long)
                     newLocations.append(location)  // Corrected line
                 }
             }
@@ -42,15 +43,15 @@ class FirebaseManager: ObservableObject {
         }
     }
     
-    func addLocation(name: String, lat: Double, long: Double) {
+    func addLocation(name: String, subtitle: String, lat: Double, long: Double) {
         let key = ref.child("locations").childByAutoId().key
-        let newLocation = ["name": name, "lat": lat, "long": long] as [String: Any]
+        let newLocation = ["name": name, "subtitle": subtitle, "lat": lat, "long": long] as [String: Any]
         ref.child("locations").child(key ?? UUID().uuidString).setValue(newLocation) { error, _ in
             if let error = error {
                 print("DEBGUG Error addLocation(): \(error.localizedDescription) ")
             }
             else {
-                self.locations.append(Location(name: name, lat: lat, long: long))
+                self.locations.append(Location(name: name, subTitle: subtitle, lat: lat, long: long))
             }
         }
     }

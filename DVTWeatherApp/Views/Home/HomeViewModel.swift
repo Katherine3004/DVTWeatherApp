@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 enum HomeViewState {
     case loading
@@ -18,7 +19,11 @@ protocol HomeViewModelType: ObservableObject {
     
     var weather: Weather? { get set }
     var forecast: Forecast? { get set }
+    var annotations: [AnnotationData] { get }
     
+    var location: CLLocation? { get set }
+    
+    var showFavouriteSheet: Bool { get set }
     var showLocationPermissionSheet: Bool { get set }
     
     func load()
@@ -30,20 +35,36 @@ class HomeViewModel: ObservableObject,  HomeViewModelType {
     @Published var weather: Weather?
     @Published var forecast: Forecast?
     
+    @Published var location: CLLocation?
+    
+    @Published var showFavouriteSheet: Bool = false
     @Published var showLocationPermissionSheet: Bool = false
     
     let services: Services
     let locationManager: LocationManager
+    let firebaseManager: FirebaseManager
     
     var lat: String = ""
     var long: String = ""
     
     weak var coordinator: HomeCoordinator?
     
+    var annotations: [AnnotationData] {
+        var allAnnotations: [AnnotationData] = firebaseManager.locations.map {
+            AnnotationData(name: $0.name, subtitle: $0.subTitle, coordinate: CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.long))
+        }
+        if let location = self.location {
+            allAnnotations.insert(AnnotationData(name: "Current Location", subtitle: "", coordinate: location.coordinate), at: 0)
+        }
+        return allAnnotations
+    }
+    
     init(services: Services, locationManager: LocationManager, coordinator: HomeCoordinator? = nil) {
         self.services = services
         self.locationManager = locationManager
         self.coordinator = coordinator
+        
+        self.firebaseManager = FirebaseManager()
         
         load()
     }
@@ -112,16 +133,16 @@ class HomeViewModel: ObservableObject,  HomeViewModelType {
     }
 }
 
-class HomeViewModelPreview: ObservableObject,  HomeViewModelType {
-    
-    @Published var state: HomeViewState = .loading
-    @Published var weather: Weather?
-    @Published var forecast: Forecast?
-    
-    @Published var showLocationPermissionSheet: Bool = false
-    
-    init() {
-    }
-    
-    func load() {}
-}
+//class HomeViewModelPreview: ObservableObject,  HomeViewModelType {
+//    
+//    @Published var state: HomeViewState = .loading
+//    @Published var weather: Weather?
+//    @Published var forecast: Forecast?
+//    
+//    @Published var showLocationPermissionSheet: Bool = false
+//    
+//    init() {
+//    }
+//    
+//    func load() {}
+//}

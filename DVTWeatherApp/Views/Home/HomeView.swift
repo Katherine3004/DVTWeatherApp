@@ -18,6 +18,10 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
                 loadingContent
             case .loaded:
                 loadedContent(weather: vm.weather, forecast: vm.forecast)
+//                    .sheet(isPresented: $vm.showFavouriteSheet) {
+//                        favouriteSheet
+//                            .presentationDetents([.medium])
+//                    }
             case let .error(title, message):
                 errorContent(title: title, message: message)
             }
@@ -39,6 +43,48 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
+//    var favouriteSheet: some View {
+//        VStack(alignment: .center, spacing: 12) {
+//            HStack(alignment: .center, spacing: 0) {
+//                Text("Favourite Locations")
+//                    .font(.body18SemiBold)
+//                    .foregroundStyle(Color.darkCloudy)
+//                Spacer()
+//                Image(systemName: "xmark")
+//                    .font(.system(size: 16))
+//                    .foregroundStyle(Color.darkCloudy)
+//                    .onTapGesture {
+//                        vm.showFavouriteSheet = false
+//                    }
+//            }
+//            ScrollView(showsIndicators: false) {
+//                VStack(alignment: .leading, spacing: 16) {
+//                    ForEach(vm.annotations, id: \.id) { annotation in
+//                        Button(action: { print(annotation.name) }, label: {
+//                            HStack(alignment: .center, spacing: 0) {
+//                                Text(annotation.name ?? "")
+//                                    .font(.body16)
+//                                    .foregroundStyle(Color.cloudy)
+//                                Spacer()
+//                                if annotation.name != "Current Location" {
+//                                    Button(action: { vm.deleteFavourite(name: annotation.name ?? "") }, label: {
+//                                        Image(systemName: "trash")
+//                                            .font(.system(size: 16))
+//                                            .foregroundStyle(Color.darkCloudy)
+//                                    })
+//                                    .buttonStyle(PlainButtonStyle())
+//                                }
+//                            }
+//                            .contentShape(Rectangle())
+//                        })
+//                        .buttonStyle(PlainButtonStyle())
+//                    }
+//                }
+//            }
+//        }
+//        .padding(.all, 16)
+//    }
+    
     //loaded Content
     func loadedContent(weather: Weather?, forecast: Forecast?) -> some View {
         Group {
@@ -46,13 +92,34 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
                 if let condition = weather.weather?.first?.main {
                     ScrollView(showsIndicators: false) {
                         VStack(alignment: .center, spacing: 0) {
-                            ZStack(alignment: .center) {
-                                Image(weatherBackground(for: condition))
-                                    .resizable()
-                                    .frame(height: 383)
-                                    .frame(maxWidth: .infinity)
-                                
-                                currentTemp(currentTemp: weather.main?.temp, currentCondition: condition)
+                            ZStack(alignment: .topTrailing) {
+                                ZStack(alignment: .center) {
+                                    Image(weatherBackground(for: condition))
+                                        .resizable()
+                                        .frame(height: 383)
+                                        .frame(maxWidth: .infinity)
+                                    
+                                    currentTemp(currentTemp: weather.main?.temp, currentCondition: condition)
+                                }
+                                HStack(alignment: .center, spacing: 0) {
+                                    Spacer()
+                                    Button(action: {
+//                                        vm.showFavouriteSheet = true
+                                    }, label: {
+                                        Image(systemName: "star.fill")
+                                            .font(.system(size: 28))
+                                            .foregroundStyle(Color.white)
+                                            .overlay(
+                                                Image(systemName: "star")
+                                                    .font(.system(size: 28))
+                                                    .foregroundStyle(Color.darkCloudy)
+                                            )
+                                        
+                                    })
+                                    .buttonStyle(PlainButtonStyle())
+                                    .padding(.top, 64)
+                                    .padding([.horizontal], 24)
+                                }
                             }
                             
                             HStack(alignment: .center, spacing: 0) {

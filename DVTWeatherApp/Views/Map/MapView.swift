@@ -10,121 +10,50 @@ import MapKit
 
 struct MapView<ViewModel: MapViewModelType>: View {
     
-    @StateObject var vm: ViewModel
-    
-    @State private var searchService = SearchService(completer: .init())
-    @State private var selectedLocation: AnnotationData?
-    @State private var position = MapCameraPosition.automatic
+    @StateObject var vm: ViewModel    
     
     var body: some View {
-        viewContent
-            .edgesIgnoringSafeArea(.top)
-            .fullScreenCover(isPresented: $vm.showLocationPermissionSheet) {
-                LocationPermissionView(closePermissionSheet: { vm.showLocationPermissionSheet = false })
-            }
-            .sheet(isPresented: $vm.showFavouriteSheet) {
-                favouriteSheet
-                    .presentationDetents([.medium])
-            }
-            .sheet(isPresented: $vm.showSearchSheet) {
-                searchSheet
-            }
-//            .overlay(alignment: .bottom) {
-//                if selectedLocation != nil {
-//                    LookAroundPreview(scene: $scene, allowsNavigation: false, badgePosition: .bottomTrailing)
-//                        .frame(height: 150)
-//                        .clipShape(RoundedRectangle(cornerRadius: 12))
-//                        .safeAreaPadding(.bottom, 40)
-//                        .padding(.horizontal, 20)
-//                }
-//            }
-//            .onChange(of: selectedLocation) {
-//                if let selectedLocation {
-//                    Task {
-//                        scene = try? await fetchScene(for: selectedLocation.location)
-//                    }
-//                }
-//                isSheetPresented = selectedLocation == nil
-//            }
-//            .onChange(of: searchResults) {
-//                if let firstResult = searchResults.first, searchResults.count == 1 {
-//                    selectedLocation = firstResult
-//                }
-//            }
-    }
-    
-    var viewContent: some View {
-        Group {
-            VStack(alignment: .center, spacing: 0) {
-                HStack(alignment: .center, spacing: 0) {
-                    //search bar will go here
-                    Spacer()
-                    Button(action: { vm.showFavouriteSheet = true }, label: {
-                        Image(systemName: "star")
-                            .font(.system(size: 16))
-                            .foregroundStyle(Color.cloudy)
-                    })
-                    .buttonStyle(PlainButtonStyle())
-                    .padding(.top, 100)
-                    .padding([.horizontal, .bottom], 16)
-                }
-//                Map(position: $position, selection: $selectedLocation) {
-//                    ForEach(vm.searchResults) { result in
-//                        Marker(coordinate: result.location) {
-//                            Image(systemName: "mappin")
-//                        }
-//                        .tag(result)
-//                    }
-//                }
-//                .ignoresSafeArea()
-                Map(coordinateRegion: $vm.region, annotationItems: vm.annotations) {
-                    MapPin(coordinate: $0.coordinate ?? CLLocationCoordinate2D())
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-    }
-    
-    var favouriteSheet: some View {
-        VStack(alignment: .center, spacing: 12) {
-            HStack(alignment: .center, spacing: 0) {
-                Text("Favourite Locations")
-                    .font(.body18SemiBold)
-                    .foregroundStyle(Color.darkCloudy)
-                Spacer()
-                Image(systemName: "xmark")
-                    .font(.system(size: 16))
-                    .foregroundStyle(Color.darkCloudy)
-                    .onTapGesture {
-                        vm.showFavouriteSheet = false
-                    }
-            }
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 16) {
-                    ForEach(vm.annotations, id: \.id) { annotation in
-                        Button(action: { print(annotation.name) }, label: {
-                            HStack(alignment: .center, spacing: 0) {
-                                Text(annotation.name ?? "")
-                                    .font(.body16)
-                                    .foregroundStyle(Color.cloudy)
-                                Spacer()
-                                if annotation.name != "Current Location" {
-                                    Button(action: { vm.deleteFavourite(name: annotation.name ?? "") }, label: {
-                                        Image(systemName: "trash")
-                                            .font(.system(size: 16))
-                                            .foregroundStyle(Color.darkCloudy)
-                                    })
-                                    .buttonStyle(PlainButtonStyle())
+        ZStack(alignment: .bottom) {
+            Map(position: $vm.position, selection: $vm.selectedLocation) {
+                ForEach(vm.annotations, id: \.id) { result in
+                    if let coordinates = result.coordinate {
+                        Marker(coordinate: coordinates) {
+                            Image(systemName: "mappin")
+                                .onTapGesture {
+                                    vm.selectedLocation = result
                                 }
-                            }
-                            .contentShape(Rectangle())
-                        })
-                        .buttonStyle(PlainButtonStyle())
+                        }
+                        .tag(result)
                     }
                 }
             }
+            .onTapGesture {
+                vm.selectedLocation = nil
+                vm.showSearchSheet = true
+            }
+            
+            if vm.selectedLocation != nil {
+                LookAroundPreview(scene: $vm.scene,
+                                  allowsNavigation: false,
+                                  badgePosition: .bottomTrailing)
+                    .frame(height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 100)
+            }
         }
-        .padding(.all, 16)
+        .ignoresSafeArea()
+        .sheet(isPresented: $vm.showSearchSheet) {
+            searchSheet
+        }
+        .fullScreenCover(isPresented: $vm.showLocationPermissionSheet) {
+            LocationPermissionView(closePermissionSheet: { vm.showLocationPermissionSheet = false })
+        }
+        
+        .onChange(of: vm.selectedLocation) {
+            vm.onChangeSelectedLocation()
+        }
+            
     }
     
     var searchSheet: some View {
@@ -137,9 +66,7 @@ struct MapView<ViewModel: MapViewModelType>: View {
                 TextField("Search", text: $vm.query)
                     .autocorrectionDisabled()
                     .onSubmit {
-                        Task {
-                            vm.searchResults = try await searchService.search(with: vm.query)
-                        }
+                        vm.search()
                     }
                 .autocorrectionDisabled()
                 .foregroundStyle(Color.cloudy)
@@ -162,16 +89,16 @@ struct MapView<ViewModel: MapViewModelType>: View {
             Spacer()
             
             ScrollView(showsIndicators: false) {
-                ForEach(searchService.completions) { item in
+                ForEach(vm.searchService.completions) { item in
                     Button(action: {
-                        vm.addLocation(name: item.title, coordinate: item.coordinates)
+                        vm.addLocation(name: item.title, subtitle: item.subtitle, coordinate: item.coordinates)
                     }, label: {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(item.title)
                                 .font(.body18)
                                 .foregroundStyle(Color.darkCloudy)
                                 .multilineTextAlignment(.leading)
-                            Text(item.subTitle)
+                            Text(item.subtitle)
                                 .font(.body16)
                                 .foregroundStyle(Color.cloudy)
                                 .multilineTextAlignment(.leading)
@@ -190,11 +117,8 @@ struct MapView<ViewModel: MapViewModelType>: View {
                 }
             }
         }
-        .onChange(of: vm.query) {
-            searchService.update(queryFragment: vm.query)
-        }
         .interactiveDismissDisabled()
-        .presentationDetents([.height(200), .large])
+        .presentationDetents([.height(100), .large])
         .presentationBackground(.regularMaterial)
         .presentationBackgroundInteraction(.enabled(upThrough: .large))
     }
@@ -204,6 +128,7 @@ struct AnnotationData: Identifiable, Hashable {
    
     let id = UUID()
     let name: String?
+    let subtitle: String?
     let coordinate: CLLocationCoordinate2D?
     
     static func == (lhs: AnnotationData, rhs: AnnotationData) -> Bool {

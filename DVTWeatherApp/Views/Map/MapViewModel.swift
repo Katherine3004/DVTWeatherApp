@@ -1,4 +1,3 @@
-//
 //  MapViewModel.swift
 //  DVTWeatherApp
 //
@@ -15,16 +14,22 @@ protocol MapViewModelType: ObservableObject {
     
     var annotations: [AnnotationData] { get }
     
+    var searchService: SearchService { get set }
     var query: String { get set }
     var searchResults: [AnnotationData] { get set }
+    var selectedLocation: AnnotationData? { get set }
+    var position: MapCameraPosition { get set }
+    var scene: MKLookAroundScene? { get set }
     
     var showLocationPermissionSheet: Bool { get set }
-    var showFavouriteSheet: Bool { get set }
     var showSearchSheet: Bool { get set }
     
     func deleteFavourite(name: String)
-    func addLocation(name: String, coordinate: CLLocationCoordinate2D)
+    func addLocation(name: String, subtitle: String, coordinate: CLLocationCoordinate2D)
     
+    func search()
+    func fetchScene(for coordinate: CLLocationCoordinate2D) async throws -> MKLookAroundScene?
+    func onChangeSelectedLocation()
 }
 
 class MapViewModel: ObservableObject, MapViewModelType {
@@ -33,11 +38,14 @@ class MapViewModel: ObservableObject, MapViewModelType {
     
     @Published var location: CLLocation?
     
+    @Published var searchService: SearchService = SearchService(completer: .init())
     @Published var query: String = ""
     @Published var searchResults: [AnnotationData] = []
+    @Published var selectedLocation: AnnotationData?
+    @Published var position: MapCameraPosition = MapCameraPosition.automatic
+    @Published var scene: MKLookAroundScene?
     
     @Published var showLocationPermissionSheet: Bool = false
-    @Published var showFavouriteSheet: Bool = false
     @Published var showSearchSheet: Bool = true
     
     let services: Services
@@ -48,13 +56,13 @@ class MapViewModel: ObservableObject, MapViewModelType {
     
     var annotations: [AnnotationData] {
         var allAnnotations: [AnnotationData] = firebaseManager.locations.map {
-            AnnotationData(name: $0.name, coordinate: CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.long))
+            AnnotationData(name: $0.name, subtitle: $0.subTitle, coordinate: CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.long))
         }
         if let location = self.location {
-            allAnnotations.insert(AnnotationData(name: "Current Location", coordinate: location.coordinate), at: 0)
+            allAnnotations.insert(AnnotationData(name: "Current Location", subtitle: "", coordinate: location.coordinate), at: 0)
         }
         return allAnnotations
- }
+    }
     
     init(services: Services, locationManager: LocationManager, coordinator: MapCoordinator? = nil) {
         self.services = services
@@ -117,7 +125,43 @@ class MapViewModel: ObservableObject, MapViewModelType {
         firebaseManager.deleteLocation(name: name)
     }
     
-    func addLocation(name: String, coordinate: CLLocationCoordinate2D) {
-        firebaseManager.addLocation(name: name, lat: coordinate.latitude, long: coordinate.longitude)
+    func addLocation(name: String, subtitle: String, coordinate: CLLocationCoordinate2D) {
+        firebaseManager.addLocation(name: name, subtitle: subtitle, lat: coordinate.latitude, long: coordinate.longitude)
+    }
+    
+    func search() {
+        Task {
+            let searchResponse = try await searchService.search(with: query)
+            
+            await MainActor.run {
+                self.searchResults = searchResponse
+            }
+        }
+    }
+    
+    private func didTapOnCompletion(_ completion: AnnotationData) {
+        Task {
+            if let singleLocation = try? await searchService.search(with: "\(completion.name) \(completion.subtitle)").first {
+                searchResults = [singleLocation]
+            }
+        }
+    }
+    
+    func fetchScene(for coordinate: CLLocationCoordinate2D) async throws -> MKLookAroundScene? {
+        let lookAroundScene = MKLookAroundSceneRequest(coordinate: coordinate)
+        return try await lookAroundScene.scene
+    }
+    
+    func onChangeSelectedLocation() {
+        if let selectedLocation, let coordinate = selectedLocation.coordinate {
+            Task {
+                let response = try? await fetchScene(for: coordinate)
+                
+                await MainActor.run {
+                    self.scene = response
+                }
+            }
+        }
+        showSearchSheet = selectedLocation == nil
     }
 }

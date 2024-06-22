@@ -9,6 +9,7 @@ import Foundation
 
 struct Location {
     let name: String
+    let subTitle: String
     let lat: Double
     let long: Double
 }

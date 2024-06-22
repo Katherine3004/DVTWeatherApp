@@ -11,7 +11,7 @@ import MapKit
 struct SearchCompletion: Identifiable {
     let id = UUID()
     let title: String
-    let subTitle: String
+    let subtitle: String
     let coordinates: CLLocationCoordinate2D
     var url: URL?
 }
@@ -36,12 +36,11 @@ class SearchService: NSObject, MKLocalSearchCompleterDelegate {
 
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         completions = completer.results.map { completion in
-            // Get the private _mapItem property
             let mapItem = completion.value(forKey: "_mapItem") as? MKMapItem
 
             return .init(
                 title: completion.title,
-                subTitle: completion.subtitle, 
+                subtitle: completion.subtitle, 
                 coordinates: mapItem?.placemark.coordinate ?? CLLocationCoordinate2D(),
                 url: mapItem?.url
             )
@@ -60,9 +59,9 @@ class SearchService: NSObject, MKLocalSearchCompleterDelegate {
         let response = try await search.start()
 
         return response.mapItems.compactMap { mapItem in
-            guard let name = mapItem.name, let location = mapItem.placemark.location?.coordinate else { return nil }
+            guard let name = mapItem.placemark.title, let subtitle = mapItem.placemark.title, let location = mapItem.placemark.location?.coordinate else { return nil }
 
-            return .init(name: name, coordinate: location)
+            return .init(name: name, subtitle: subtitle, coordinate: location)
         }
     }
 }
