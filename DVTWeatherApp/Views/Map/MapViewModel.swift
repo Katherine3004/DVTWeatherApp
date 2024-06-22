@@ -24,7 +24,6 @@ protocol MapViewModelType: ObservableObject {
     var showLocationPermissionSheet: Bool { get set }
     var showSearchSheet: Bool { get set }
     
-    func deleteFavourite(name: String)
     func addLocation(name: String, subtitle: String, coordinate: CLLocationCoordinate2D)
     
     func search()
@@ -119,10 +118,6 @@ class MapViewModel: ObservableObject, MapViewModelType {
             await getCurrentLocation()
         default: break
         }
-    }
-    
-    func deleteFavourite(name: String) {
-        firebaseManager.deleteLocation(name: name)
     }
     
     func addLocation(name: String, subtitle: String, coordinate: CLLocationCoordinate2D) {

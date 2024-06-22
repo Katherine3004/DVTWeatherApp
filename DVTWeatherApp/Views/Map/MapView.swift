@@ -42,7 +42,7 @@ struct MapView<ViewModel: MapViewModelType>: View {
                     .padding(.bottom, 100)
             }
         }
-        .ignoresSafeArea()
+        .edgesIgnoringSafeArea(.top)
         .sheet(isPresented: $vm.showSearchSheet) {
             searchSheet
         }

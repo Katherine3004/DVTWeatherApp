@@ -21,12 +21,17 @@ protocol HomeViewModelType: ObservableObject {
     var forecast: Forecast? { get set }
     var annotations: [AnnotationData] { get }
     
+    var selectedLocation: AnnotationData? { get set }
+    
     var location: CLLocation? { get set }
     
     var showFavouriteSheet: Bool { get set }
     var showLocationPermissionSheet: Bool { get set }
     
     func load()
+    
+    func updateWeather()
+    func deleteFavourite(name: String)
 }
 
 class HomeViewModel: ObservableObject,  HomeViewModelType {
@@ -36,6 +41,8 @@ class HomeViewModel: ObservableObject,  HomeViewModelType {
     @Published var forecast: Forecast?
     
     @Published var location: CLLocation?
+    
+    @Published var selectedLocation: AnnotationData?
     
     @Published var showFavouriteSheet: Bool = false
     @Published var showLocationPermissionSheet: Bool = false
@@ -75,6 +82,32 @@ class HomeViewModel: ObservableObject,  HomeViewModelType {
             await checkLocationPermission()
             await getCurrentLocation()
             await getWeather()
+        }
+    }
+    
+    func updateWeather() {
+        if let lat = selectedLocation?.coordinate?.latitude, let long = selectedLocation?.coordinate?.longitude {
+            self.showFavouriteSheet = false
+            Task {
+                do {
+                    await updateState(state: .loading)
+                    let lat = String(format: "%.2f", lat)
+                    let long = String(format: "%.2f", long)
+                    
+                    let weatherResponse = try await services.weatherService.fetchWeather(lat: lat, long: long)
+                    let forecastResponse = try await services.weatherService.fetchForecast(lat: lat, long: long)
+                    
+                    await MainActor.run {
+                        self.weather = weatherResponse
+                        self.forecast = forecastResponse
+                    }
+                    
+                    await updateState(state: .loaded)
+                } 
+                catch {
+                    await updateState(state: .error(title: "Error", message: error.localizedDescription))
+                }
+            }
         }
     }
     
@@ -118,11 +151,16 @@ class HomeViewModel: ObservableObject,  HomeViewModelType {
             await MainActor.run {
                 self.lat = String(format: "%.2f", location.coordinate.latitude)
                 self.long = String(format: "%.2f", location.coordinate.longitude)
+                self.location = location
             }
         }
         catch {
             await updateState(state: .error(title: "Location Error", message: "We could not find users location"))
         }
+    }
+    
+    func deleteFavourite(name: String) {
+        firebaseManager.deleteLocation(name: name)
     }
     
     @MainActor

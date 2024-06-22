@@ -18,10 +18,6 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
                 loadingContent
             case .loaded:
                 loadedContent(weather: vm.weather, forecast: vm.forecast)
-//                    .sheet(isPresented: $vm.showFavouriteSheet) {
-//                        favouriteSheet
-//                            .presentationDetents([.medium])
-//                    }
             case let .error(title, message):
                 errorContent(title: title, message: message)
             }
@@ -29,6 +25,16 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
         .edgesIgnoringSafeArea(.top)
         .fullScreenCover(isPresented: $vm.showLocationPermissionSheet) {
             LocationPermissionView(closePermissionSheet: { vm.showLocationPermissionSheet = false })
+        }
+        .sheet(isPresented: $vm.showFavouriteSheet) {
+            favouriteSheet
+                .presentationDetents([.medium])
+        }
+        .onChange(of: vm.selectedLocation) {
+            vm.updateWeather()
+        }
+        .onAppear {
+            vm.load()
         }
     }
     
@@ -43,47 +49,51 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
-//    var favouriteSheet: some View {
-//        VStack(alignment: .center, spacing: 12) {
-//            HStack(alignment: .center, spacing: 0) {
-//                Text("Favourite Locations")
-//                    .font(.body18SemiBold)
-//                    .foregroundStyle(Color.darkCloudy)
-//                Spacer()
-//                Image(systemName: "xmark")
-//                    .font(.system(size: 16))
-//                    .foregroundStyle(Color.darkCloudy)
-//                    .onTapGesture {
-//                        vm.showFavouriteSheet = false
-//                    }
-//            }
-//            ScrollView(showsIndicators: false) {
-//                VStack(alignment: .leading, spacing: 16) {
-//                    ForEach(vm.annotations, id: \.id) { annotation in
-//                        Button(action: { print(annotation.name) }, label: {
-//                            HStack(alignment: .center, spacing: 0) {
-//                                Text(annotation.name ?? "")
-//                                    .font(.body16)
-//                                    .foregroundStyle(Color.cloudy)
-//                                Spacer()
-//                                if annotation.name != "Current Location" {
-//                                    Button(action: { vm.deleteFavourite(name: annotation.name ?? "") }, label: {
-//                                        Image(systemName: "trash")
-//                                            .font(.system(size: 16))
-//                                            .foregroundStyle(Color.darkCloudy)
-//                                    })
-//                                    .buttonStyle(PlainButtonStyle())
-//                                }
-//                            }
-//                            .contentShape(Rectangle())
-//                        })
-//                        .buttonStyle(PlainButtonStyle())
-//                    }
-//                }
-//            }
-//        }
-//        .padding(.all, 16)
-//    }
+    var favouriteSheet: some View {
+        VStack(alignment: .center, spacing: 12) {
+            HStack(alignment: .center, spacing: 0) {
+                Text("Favourite Locations")
+                    .font(.h5)
+                    .foregroundStyle(Color.darkCloudy)
+                Spacer()
+                Image(systemName: "xmark")
+                    .font(.system(size: 18))
+                    .foregroundStyle(Color.darkCloudy)
+                    .onTapGesture {
+                        vm.showFavouriteSheet = false
+                    }
+            }
+            .padding(.bottom, 12)
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 16) {
+                    ForEach(vm.annotations, id: \.id) { annotation in
+                        if let name = annotation.name {
+                            Button(action: {
+                                vm.selectedLocation = annotation
+                            }, label: {
+                                Text(name)
+                                    .font(.body16)
+                                    .foregroundStyle(Color.cloudy)
+                                Spacer()
+                                if name != "Current Location" {
+                                    Button(action: {
+                                        vm.deleteFavourite(name: name)
+                                    }, label: {
+                                        Image(systemName: "trash")
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(Color.darkCloudy)
+                                    })
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                            })
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                }
+            }
+        }
+        .padding(.all, 16)
+    }
     
     //loaded Content
     func loadedContent(weather: Weather?, forecast: Forecast?) -> some View {
@@ -101,11 +111,19 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
                                     
                                     currentTemp(currentTemp: weather.main?.temp, currentCondition: condition)
                                 }
-                                HStack(alignment: .center, spacing: 0) {
-                                    Spacer()
-                                    Button(action: {
-//                                        vm.showFavouriteSheet = true
-                                    }, label: {
+                               
+                                Button(action: {
+                                    vm.showFavouriteSheet = true
+                                }, label: {
+                                    HStack(alignment: .center, spacing: 0) {
+                                        if vm.selectedLocation != nil {
+                                            Spacer()
+                                            Text(vm.selectedLocation?.name ?? "Current Location")
+                                                .font(.body14)
+                                                .foregroundStyle(Color.darkCloudy)
+                                                .padding(.leading, 32)
+                                            Spacer()
+                                        }
                                         Image(systemName: "star.fill")
                                             .font(.system(size: 28))
                                             .foregroundStyle(Color.white)
@@ -114,12 +132,13 @@ struct HomeView<ViewModel: HomeViewModelType>: View {
                                                     .font(.system(size: 28))
                                                     .foregroundStyle(Color.darkCloudy)
                                             )
-                                        
-                                    })
-                                    .buttonStyle(PlainButtonStyle())
-                                    .padding(.top, 64)
-                                    .padding([.horizontal], 24)
-                                }
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                })
+                                .contentShape(Rectangle())
+                                .buttonStyle(PlainButtonStyle())
+                                .padding(.top, 80)
+                                .padding([.horizontal], 24)
                             }
                             
                             HStack(alignment: .center, spacing: 0) {
